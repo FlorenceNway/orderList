@@ -67,12 +67,14 @@ const OrderList = () => {
                         <td><Button>
                             <Link style={btnTextColor}
                                 to={{ pathname: '/details', 
-                                query: { 
-                                    id: order.id,
-                                    status:order.status, 
-                                    quantity:order.quantity, 
-                                    productId:order.productId, 
-                                    address: order.address} }}>
+                                query:{order}
+                                // query: { 
+                                //     id: order.id,
+                                //     status:order.status, 
+                                //     quantity:order.quantity, 
+                                //     productId:order.productId, 
+                                //     address: order.address}
+                             }}>
                                 View
                             </Link>
                         </Button></td>
