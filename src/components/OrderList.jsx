@@ -66,8 +66,9 @@ const OrderList = () => {
                         <td>{order.total}</td>
                         <td>{order.status}</td>
                         <td>{order.quantity}</td>
-                        <td><Button
-                        ><Link style={btnTextColor}
+                        <td>
+                            <Button
+                            ><Link style={btnTextColor}
                             to={{ pathname: '/details', query: { status:order.status, quantity:order.quantity, productId:order.productId} }}>
                             View</Link>
                         </Button></td>

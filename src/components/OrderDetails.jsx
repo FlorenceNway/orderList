@@ -1,8 +1,11 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import orderApi from './api/orderApi';
+import { useHistory, withRouter } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import { Card } from 'react-bootstrap';
 
 const OrderDetails = (props) => {
-    const {status, quantity, productId} = props.location.query;
+    const {status, quantity, productId} = props.location.query
     const [ products, setProducts ] = useState([])
     const [productName, setProductName] = useState('')
   
@@ -25,15 +28,24 @@ const OrderDetails = (props) => {
     useEffect(() => {
         getProduct();
     }, [getProduct])
-    // show invidual order details
 
+    const history = useHistory();
+    const goDetailsPage = () => {
+        history.push('/');
+    };
+    const cardStyle = { margin: '20px', width: '18rem', alignItems: 'center' }
+    // show invidual order details
     return (
-        <ul>
-            {status ? <li>{status}</li> : ''}
-            {quantity? <li>{props.location.query?.quantity}</li> : ''}
-            <li>{productName}</li>
-        </ul>
+        <Card>
+            <Card.Body style={cardStyle}>
+                <Card.Subtitle>{props !== 'underfined' ? `Your order has been ${status}` : 'Click View to see details'}</Card.Subtitle>
+                <Card.Text>{props !== 'underfined' ? `Quantity: ${quantity}` : 'Click View to see details'}</Card.Text> 
+                <Card.Text>{props !== 'underfined' ? `Product: ${productName}` : 'Click View to see details'}</Card.Text>
+                <Button onClick={goDetailsPage}>Back to List</Button>
+            </Card.Body>
+        </Card>
+        
     )
 };
 
-export default OrderDetails;
+export default withRouter(OrderDetails);
