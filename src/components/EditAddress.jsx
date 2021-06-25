@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import { useRef } from 'react';
 import {Button,Modal} from 'react-bootstrap';
 import orderApi from './api/orderApi';
 
@@ -9,7 +8,6 @@ const EditAddress = ({show, onHide, order}) => {
     const [newAddress, setNewAddress] = useState(order.address);
     const [Message, setMessage] = useState('You can revise the Address')
     const [ disabled, setDisabled] = useState(false)
-    // const inputRef = useRef(order.address);
 
     const onChange= (e) => {
         setDisabled(false)
@@ -28,10 +26,6 @@ const EditAddress = ({show, onHide, order}) => {
         return response;
     }
 
-    // useEffect(() => {
-    //     if (inputRef.current) inputRef.current.value = order.address;
-    // },[order.address]);
-
     const inputStyle = {border: 'none', cursor: 'pointer', width: '100%' }
     return (
         <Modal show={show} onHide={onHide}>
@@ -40,7 +34,6 @@ const EditAddress = ({show, onHide, order}) => {
             </Modal.Header>
 
             <Modal.Body>
-                {/* <input ref={inputRef} value={useRef.current.value} style={inputStyle}/> */}
                 <input onChange={onChange} value={newAddress} style={inputStyle}/>
             </Modal.Body>
 
