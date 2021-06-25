@@ -1,6 +1,8 @@
 import React,{ useState, useEffect, useCallback } from 'react';
 import orderApi from './api/orderApi';
 import { Link } from 'react-router-dom';
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 
 
 const OrderList = () => {
@@ -49,23 +51,29 @@ const OrderList = () => {
 
     return (
         <div>
-            <table>
+           <Table striped bordered hover variant="dark">
                 <thead>
                     <th>No.</th>
                     <th>Total</th>
                     <th>Status</th>
                     <th>Quantity</th>
                 </thead>
+                <tbody>
                 {uniqueOrderList.map(order => (
                     <tr key={order.id}>
                         <td>{order.id}</td>
                         <td>{order.total}</td>
                         <td>{order.status}</td>
                         <td>{order.quantity}</td>
-                        <td><button><Link to={{ pathname: '/details', query: { status:order.status, quantity:order.quantity, productId:order.productId} }}>View</Link></button></td>
+                        <td><Button
+                        ><Link 
+                            to={{ pathname: '/details', query: { status:order.status, quantity:order.quantity, productId:order.productId} }}>
+                            View</Link>
+                        </Button></td>
                     </tr>
                 ))}
-            </table>
+                </tbody>
+            </Table>
 
         </div>
     );

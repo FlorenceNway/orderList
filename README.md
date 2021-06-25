@@ -20,6 +20,14 @@ Using this API, create a JS app that:
     * allows editing of each order's address in this view if the order status is not shipped
 
 
+Notes for FAQs:
+
+* it's ok if you don't finish the exercise
+* it's also ok to add any functionality not mentioned above
+* you're free to install any packages you need
+* you can use search engines as you would in your day to day
+* the design isn't too important, but using a component library or framework would be interesting, or at least do some basic styling
+* please use git in your exercise, and raise one or more pull requests (as you see fit) so we can review the code afterwards
 
 When making POST/PUT/PATCH requests to json-server, it's good to know that:
 
@@ -28,3 +36,4 @@ When making POST/PUT/PATCH requests to json-server, it's good to know that:
 * Id values are not mutable. Any id value in the body of your PUT or PATCH request will be ignored
 * A POST, PUT or PATCH request should include a Content-Type: application/json header to use the JSON in the request body. Otherwise it will return a 2XX status code, but without changes being made to the data
 
+Let us know if you have any questions!
