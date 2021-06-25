@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 import EditAddress from './EditAddress';
 
 const OrderDetails = ({location}) => {
-    console.log(location)
-    const {status,quantity,address, productId} = location.query;
+    const {order} = location.query;
+    // const {status,quantity,address, productId, id} = location.query;
     const [ products, setProducts ] = useState([])
     const [productName, setProductName] = useState('')
     const [showModal, setShow] = useState(false);
@@ -24,12 +24,12 @@ const OrderDetails = ({location}) => {
 
     const getProduct = useCallback(() => {
        return products.map ( product => {
-           if(productId) {
-            if (product.id === productId) setProductName(product.title)
+           if(order.productId) {
+            if (product.id === order.productId) setProductName(product.title)
            }
              return product;
         })
-    },[productId,products])
+    },[order.productId,products])
 
     useEffect(() => {
         getProduct();
@@ -50,17 +50,17 @@ const OrderDetails = ({location}) => {
         <>
         <Card style={cardStyle}>
             <Card.Body>
-                <Card.Subtitle>{productId === null ? 'Click View from List Page to see details' :
-                status === 'failed' ? 'Delivery attempt is failed. Please revise your address'
-                :`Your order has been ${status}`
+                <Card.Subtitle>{order.productId === null ? 'Click View from List Page to see details' :
+                order.status === 'failed' ? 'Delivery attempt is failed. Please revise your address'
+                :`Your order has been ${order.status}`
                 }</Card.Subtitle>
-                <Card.Text>Quantity: {quantity}</Card.Text> 
+                <Card.Text>Quantity: {order.quantity}</Card.Text> 
                 <Card.Text>Product: {productName}</Card.Text>
                 <Button onClick={goDetailsPage}>Back to List</Button>{' '}
-                {status === 'failed' && <Button variant="info" onClick={handleShow}>Edit Address</Button>}
+                {order.status === 'failed' && <Button variant="info" onClick={handleShow}>Edit Address</Button>}
             </Card.Body>
         </Card>
-        <EditAddress show={showModal} onHide={handleClose} address={address}/>
+        <EditAddress show={showModal} onHide={handleClose} order={order}/>
         </>
     )
 };
@@ -68,21 +68,22 @@ const OrderDetails = ({location}) => {
 OrderDetails.defaultProps = {
     location: {
       query:{
-        productId: null,
-        status: '',
-        address: '',
-        quantity: 0
-      }
+          order: {
+            productId: null,
+            status: '',
+            address: '',
+            quantity: 0
+      }}
     },
 };
 OrderDetails.propTypes = {
     location: PropTypes.shape({
-      query: {
+      query:{ order: {
           productId: PropTypes.number,
           status: PropTypes.string,
           address: PropTypes.string,
           quantity: PropTypes.number
-        },
+      }},
     }),
 };
   
