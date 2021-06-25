@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import orderApi from './api/orderApi';
 
 const OrderDetails = (props) => {
@@ -15,21 +15,25 @@ const OrderDetails = (props) => {
         setProducts(response)
     }
 
-    const getProduct = () => {
+    const getProduct = useCallback(() => {
        return products.map ( product => {
             if (product.id === productId) setProductName(product.title)
             return product;
         })
-    }
+    },[productId,products])
 
+    useEffect(() => {
+        getProduct();
+    }, [getProduct])
     // show invidual order details
+
     return (
         <ul>
-            <li>{props.location.query?.status}</li>
-            <li>{props.location.query?.quantity}</li>
+            {status ? <li>{status}</li> : ''}
+            {quantity? <li>{props.location.query?.quantity}</li> : ''}
             <li>{productName}</li>
         </ul>
-    );
+    )
 };
 
 export default OrderDetails;
