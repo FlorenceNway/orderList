@@ -18,12 +18,12 @@ const orderApi = {
     },
 
     postOrderItem: async (order) => {
-        const response = await api.get('/orderItems', order);
+        const response = await api.post('/orderItems', order);
         return response.data;
     },
 
     updateOrder: async (id, order) => {
-        const response = await api.get('/orders', order);
+        const response = await api.patch(`/orders/${id}`, order);
         return response.data;
     },
 }  
