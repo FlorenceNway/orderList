@@ -49,6 +49,7 @@ const OrderList = () => {
         getOrderItem()
     },[])
 
+    const btnTextColor = {color: 'white'}
     return (
         <div>
            <Table striped bordered hover variant="dark">
@@ -66,7 +67,7 @@ const OrderList = () => {
                         <td>{order.status}</td>
                         <td>{order.quantity}</td>
                         <td><Button
-                        ><Link 
+                        ><Link style={btnTextColor}
                             to={{ pathname: '/details', query: { status:order.status, quantity:order.quantity, productId:order.productId} }}>
                             View</Link>
                         </Button></td>
