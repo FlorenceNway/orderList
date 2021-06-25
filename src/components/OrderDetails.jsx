@@ -8,7 +8,6 @@ import EditAddress from './EditAddress';
 
 const OrderDetails = ({location}) => {
     const {order} = location.query;
-    // const {status,quantity,address, productId, id} = location.query;
     const [ products, setProducts ] = useState([])
     const [productName, setProductName] = useState('')
     const [showModal, setShow] = useState(false);
