@@ -54,10 +54,12 @@ const OrderList = () => {
         <div>
            <Table striped bordered hover variant="dark">
                 <thead>
+                    <tr>
                     <th>No.</th>
                     <th>Total</th>
                     <th>Status</th>
                     <th>Quantity</th>
+                    </tr>
                 </thead>
                 <tbody>
                 {uniqueOrderList.map(order => (
