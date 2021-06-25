@@ -3,11 +3,15 @@ import orderApi from './api/orderApi';
 import { useHistory, withRouter } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { Card } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import EditAddress from './EditAddress';
 
-const OrderDetails = (props) => {
-    const {status, quantity, productId} = props.location.query
+const OrderDetails = ({location}) => {
+    console.log(location)
+    const {status,quantity,address, productId} = location.query;
     const [ products, setProducts ] = useState([])
     const [productName, setProductName] = useState('')
+    const [showModal, setShow] = useState(false);
   
     useEffect(() => {
         getAllProducts();
@@ -20,8 +24,10 @@ const OrderDetails = (props) => {
 
     const getProduct = useCallback(() => {
        return products.map ( product => {
+           if(productId) {
             if (product.id === productId) setProductName(product.title)
-            return product;
+           }
+             return product;
         })
     },[productId,products])
 
@@ -33,19 +39,51 @@ const OrderDetails = (props) => {
     const goDetailsPage = () => {
         history.push('/');
     };
-    const cardStyle = { margin: '20px', width: '18rem', alignItems: 'center' }
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const cardStyle = { margin: '20px', width: 300, alignItems: 'center' }
+  
     // show invidual order details
     return (
-        <Card>
-            <Card.Body style={cardStyle}>
-                <Card.Subtitle>{props !== 'underfined' ? `Your order has been ${status}` : 'Click View to see details'}</Card.Subtitle>
-                <Card.Text>{props !== 'underfined' ? `Quantity: ${quantity}` : 'Click View to see details'}</Card.Text> 
-                <Card.Text>{props !== 'underfined' ? `Product: ${productName}` : 'Click View to see details'}</Card.Text>
-                <Button onClick={goDetailsPage}>Back to List</Button>
+        <>
+        <Card style={cardStyle}>
+            <Card.Body>
+                <Card.Subtitle>{productId === null ? 'Click View from List Page to see details' :
+                status === 'failed' ? 'Delivery attempt is failed. Please revise your address'
+                :`Your order has been ${status}`
+                }</Card.Subtitle>
+                <Card.Text>Quantity: {quantity}</Card.Text> 
+                <Card.Text>Product: {productName}</Card.Text>
+                <Button onClick={goDetailsPage}>Back to List</Button>{' '}
+                {status === 'failed' && <Button variant="info" onClick={handleShow}>Edit Address</Button>}
             </Card.Body>
         </Card>
-        
+        <EditAddress show={showModal} onHide={handleClose} address={address}/>
+        </>
     )
 };
 
+OrderDetails.defaultProps = {
+    location: {
+      query:{
+        productId: null,
+        status: '',
+        address: '',
+        quantity: 0
+      }
+    },
+};
+OrderDetails.propTypes = {
+    location: PropTypes.shape({
+      query: {
+          productId: PropTypes.number,
+          status: PropTypes.string,
+          address: PropTypes.string,
+          quantity: PropTypes.number
+        },
+    }),
+};
+  
 export default withRouter(OrderDetails);
