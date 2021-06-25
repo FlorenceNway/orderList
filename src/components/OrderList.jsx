@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 
-
 const OrderList = () => {
     const [orderList, setOrderList] = useState([])
     const [orderItems, setOrderItems] = useState([])
@@ -18,7 +17,6 @@ const OrderList = () => {
 // get order items 
     const getOrderItem = async() => {
         const response = await orderApi.getOrderItems();
-        console.log('orderItems',response)
         setOrderItems(response)
     }
 
@@ -34,7 +32,6 @@ const OrderList = () => {
               return order;
             })
         })
-        console.log('unique', localOrderList)
         setUniqueOrderList(localOrderList)
     }, [orderItems,orderList])
 
@@ -51,7 +48,6 @@ const OrderList = () => {
 
     const btnTextColor = {color: 'white'}
     return (
-        <div>
            <Table striped bordered hover variant="dark">
                 <thead>
                     <tr>
@@ -68,18 +64,22 @@ const OrderList = () => {
                         <td>{order.total}</td>
                         <td>{order.status}</td>
                         <td>{order.quantity}</td>
-                        <td>
-                            <Button
-                            ><Link style={btnTextColor}
-                            to={{ pathname: '/details', query: { status:order.status, quantity:order.quantity, productId:order.productId} }}>
-                            View</Link>
+                        <td><Button>
+                            <Link style={btnTextColor}
+                                to={{ pathname: '/details', 
+                                query: { 
+                                    id: order.id,
+                                    status:order.status, 
+                                    quantity:order.quantity, 
+                                    productId:order.productId, 
+                                    address: order.address} }}>
+                                View
+                            </Link>
                         </Button></td>
                     </tr>
                 ))}
                 </tbody>
             </Table>
-
-        </div>
     );
 };
 
