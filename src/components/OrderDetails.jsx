@@ -7,10 +7,16 @@ import PropTypes from 'prop-types';
 import EditAddress from './EditAddress';
 
 const OrderDetails = ({location}) => {
-    const {order} = location.query;
+    const order = location && location.query? location.query : { 
+            productId: 0,
+            status: '',
+            address: '',
+            quantity: 0
+    }
+
     const [ products, setProducts ] = useState([])
-    const [productName, setProductName] = useState('')
-    const [showModal, setShow] = useState(false);
+    const [ productName, setProductName ] = useState('')
+    const [ showModal, setShow ] = useState(false);
   
     useEffect(() => {
         getAllProducts();
@@ -49,7 +55,7 @@ const OrderDetails = ({location}) => {
         <>
         <Card style={cardStyle}>
             <Card.Body>
-                <Card.Subtitle>{order.productId === null ? 'Click View from List Page to see details' :
+                <Card.Subtitle>{order.productId === 0 ? 'Click View from List Page to see details' :
                 order.status === 'failed' ? 'Delivery attempt is failed. Please revise your address'
                 :`Your order has been ${order.status}`
                 }</Card.Subtitle>
@@ -67,22 +73,21 @@ const OrderDetails = ({location}) => {
 OrderDetails.defaultProps = {
     location: {
       query:{
-          order: {
             productId: null,
             status: '',
             address: '',
             quantity: 0
-      }}
+      }
     },
 };
 OrderDetails.propTypes = {
     location: PropTypes.shape({
-      query:{ order: {
+      query:{
           productId: PropTypes.number,
           status: PropTypes.string,
           address: PropTypes.string,
           quantity: PropTypes.number
-      }},
+      },
     }),
 };
   
